@@ -7,7 +7,4 @@
 
 import UIKit
 
-final class RMCharacterDetailView: UIView {
-    
-    
-}
+final class RMCharacterDetailView: UIView {}

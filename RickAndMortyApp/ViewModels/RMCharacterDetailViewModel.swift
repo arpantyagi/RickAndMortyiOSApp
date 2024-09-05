@@ -8,15 +8,12 @@
 import Foundation
 
 final class RMCharacterDetailViewModel {
-    
     private let character: RMCharacter
-    
+
     public let title: String
-    
-    init(character: RMCharacter){
+
+    init(character: RMCharacter) {
         self.character = character
-        self.title = character.name
-        
+        title = character.name
     }
-    
 }

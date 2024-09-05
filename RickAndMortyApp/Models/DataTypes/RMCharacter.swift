@@ -8,7 +8,6 @@
 import Foundation
 
 struct RMCharacter: Codable {
-    
     let id: Int
     let name: String
     let status: RMCharacterStatus
@@ -21,7 +20,6 @@ struct RMCharacter: Codable {
     let episode: [String]
     let url: String
     let created: String
-    
 }
 
 struct RMOrigin: Codable {
@@ -31,15 +29,14 @@ struct RMOrigin: Codable {
 
 struct RMSingleLocation: Codable {
     let name: String
-    let url : String
-    
+    let url: String
 }
 
 enum RMCharacterStatus: String, Codable {
     case alive = "Alive"
     case dead = "Dead"
-    case `unknown` = "unknown"
-        
+    case unknown
+
     var text: String {
         switch self {
         case .alive, .dead:
@@ -54,5 +51,5 @@ enum RMCharacterGender: String, Codable {
     case female = "Female"
     case male = "Male"
     case genderless = "Genderless"
-    case `unknown` = "unknown"
+    case unknown
 }

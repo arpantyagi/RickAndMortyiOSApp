@@ -10,23 +10,23 @@ import UIKit
 // Controller to show info about Character
 final class RMCharacterDetailViewController: UIViewController {
     private let viewModel: RMCharacterDetailViewModel
-    
+
     init(viewModel: RMCharacterDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil,
                    bundle: nil)
-    } 
-    
-    required init?(coder: NSCoder){
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("Unsupported")
     }
-    
-    //MARK: - Lifecycle functions
+
+    // MARK: - Lifecycle functions
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = viewModel.title
     }
-    
-    
 }

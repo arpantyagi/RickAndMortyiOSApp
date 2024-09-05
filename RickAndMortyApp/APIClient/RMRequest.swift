@@ -9,18 +9,17 @@ import Foundation
 
 /// Object that reprsents a single API call
 final class RMRequest {
-    
     /// API Constants
-    private struct Constants {
+    private enum Constants {
         static let baseURL = "https://rickandmortyapi.com/api"
     }
-    
+
     /// Desired Endpoint
     let endpoint: RMEndpoint
-    
+
     /// path components for API, if any
     let pathComponents: [String]
-    
+
     /// query arguments for API, if any
     let queryParameters: [URLQueryItem]
 
@@ -29,52 +28,80 @@ final class RMRequest {
         var string = Constants.baseURL
         string += "/"
         string += endpoint.rawValue
-        
+
         if !pathComponents.isEmpty {
-            pathComponents.forEach({
-                string += "/\($0)"
-            })
+            for pathComponent in pathComponents {
+                string += "/\(pathComponent)"
+            }
         }
-        
-        if !queryParameters.isEmpty{
+
+        if !queryParameters.isEmpty {
             string += "?"
-            let argumentString = queryParameters.compactMap({
+            let argumentString = queryParameters.compactMap {
                 guard let value = $0.value else { return nil }
                 return "\($0.name)=\(value)"
-            }).joined(separator:  "&")
-            
+            }.joined(separator: "&")
+
             string += argumentString
         }
-        
+
         return string
     }
-    
+
     /// Computed & constructed API url
     public var url: URL? {
         return URL(string: urlString)
     }
-    
+
     /// Desired http method
     public let httpMethod = "GET"
-    
-    
+
     /// Construct request
     ///  - Parameters
     ///     - endpoint: Target endpoint
     ///     - pathComponents: Collection of path componenets
     ///     - queryParameters Collection of query parameters
-    
+
     public init(endpoint: RMEndpoint,
-         pathComponents: [String] = [],
-         queryParameters: [URLQueryItem] = []
-    ) {
+                pathComponents: [String] = [],
+                queryParameters: [URLQueryItem] = [])
+    {
         self.endpoint = endpoint
         self.pathComponents = pathComponents
         self.queryParameters = queryParameters
     }
+
+    convenience init?(url: URL) {
+        let string = url.absoluteString
+        if !string.contains(Constants.baseURL) {
+            return nil
+        }
+        let trimmed = string.replacingOccurrences(of: Constants.baseURL + "/", with: "")
+
+        if trimmed.contains("/") {
+            let components = trimmed.components(separatedBy: "/")
+            if !components.isEmpty {
+                let endpointString = components[0]
+                if let rmEndpoint = RMEndpoint(rawValue: endpointString) {
+                    self.init(endpoint: rmEndpoint)
+                    return
+                }
+            }
+        } else if trimmed.contains("?") {
+            let components = trimmed.components(separatedBy: "?")
+            if !components.isEmpty {
+                let endpointString = components[0]
+                if let rmEndpoint = RMEndpoint(rawValue: endpointString) {
+                    self.init(endpoint: rmEndpoint)
+                    return
+                }
+            }
+        }
+
+        return nil
+    }
 }
 
 extension RMRequest {
-    
     static let listCharactersRequest = RMRequest(endpoint: RMEndpoint.character)
 }
