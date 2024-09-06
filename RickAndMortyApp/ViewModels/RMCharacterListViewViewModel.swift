@@ -89,6 +89,7 @@ final class RMCharacterListViewViewModel: NSObject {
 // MARK: - CollectionView
 
 extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return cellViewModels.count
     }

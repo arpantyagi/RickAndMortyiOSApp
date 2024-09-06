@@ -44,10 +44,10 @@ final class RMRequest {
 
             string += argumentString
         }
-
         return string
     }
 
+    // MARK: - Public
     /// Computed & constructed API url
     public var url: URL? {
         return URL(string: urlString)
@@ -55,13 +55,11 @@ final class RMRequest {
 
     /// Desired http method
     public let httpMethod = "GET"
-
     /// Construct request
     ///  - Parameters
     ///     - endpoint: Target endpoint
     ///     - pathComponents: Collection of path componenets
     ///     - queryParameters Collection of query parameters
-
     public init(endpoint: RMEndpoint,
                 pathComponents: [String] = [],
                 queryParameters: [URLQueryItem] = [])
@@ -103,5 +101,7 @@ final class RMRequest {
 }
 
 extension RMRequest {
+
+    /// Request that fetches a list of Characters
     static let listCharactersRequest = RMRequest(endpoint: RMEndpoint.character)
 }
